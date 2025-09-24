@@ -39,8 +39,8 @@ a{ color: inherit; text-decoration: none; }
   place-items: center;
   min-height: 60vh;
   padding: 60px 0 32px;
-  margin-top: 12vh;
-  margin-bottom: 0vh;      /* <-- push Intro further down */
+  margin-top: 6vh;
+  margin-bottom: 10vh;      /* <-- push Intro further down */
   overflow: visible;
   perspective: 1600px;
   width: 100vw;
@@ -49,7 +49,8 @@ a{ color: inherit; text-decoration: none; }
 
 .hero__scroll-hint {
   position: absolute;
-  bottom: clamp(16px, 6vh, 48px);
+  right: clamp(24px, 6vw, 72px);
+  bottom: clamp(-64px, -10vh, -24px);
   left: 50%;
   transform: translateX(-50%);
   display: inline-flex;
@@ -401,7 +402,9 @@ a{ color: inherit; text-decoration: none; }
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: #050914;
-  background: linear-gradient(135deg, #8fb2ff, #64ffd8);
+  background: linear-gradient(120deg, #8fb2ff, #64ffd8, #8fb2ff);
+  background-size: 200% 100%;
+  animation: achievements-gradient-slide 2.5s linear infinite;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
