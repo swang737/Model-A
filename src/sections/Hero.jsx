@@ -1,31 +1,9 @@
-import { useEffect, useState } from "react";
 import ASCIIText from "../components/ASCIIText.jsx";
 
 export default function Hero() {
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const update = () => {
-      if (typeof window !== "undefined") {
-        setIsMobile(window.innerWidth <= 640);
-      }
-    };
-
-    update();
-    window.addEventListener("resize", update);
-
-    return () => {
-      window.removeEventListener("resize", update);
-    };
-  }, []);
-
   return (
     <section className="hero">
-      {isMobile ? (
-        <h1 className="hero__title-mobile">Model-A</h1>
-      ) : (
-        <ASCIIText text="Model-A" asciiFontSize={8} enableWaves={false} />
-      )}
+      <ASCIIText text="Model-A" asciiFontSize={8} enableWaves={false} />
       <div className="hero__scroll-hint" aria-hidden="true">
         <span className="hero__scroll-label">Scroll</span>
         <svg
