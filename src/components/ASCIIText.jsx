@@ -430,25 +430,42 @@ export default function ASCIIText({
       };
     }
 
-    asciiRef.current = new CanvAscii(
-      { text, asciiFontSize, textFontSize, textColor, planeBaseHeight, enableWaves },
-      containerRef.current,
-      width,
-      height
-    );
-    asciiRef.current.load();
+    let creationFrame = null;
+
+    const createAsciiInstance = (w, h) => {
+      if (asciiRef.current) {
+        asciiRef.current.dispose();
+      }
+
+      asciiRef.current = new CanvAscii(
+        { text, asciiFontSize, textFontSize, textColor, planeBaseHeight, enableWaves },
+        containerRef.current,
+        w,
+        h
+      );
+      asciiRef.current.load();
+    };
+
+    creationFrame = requestAnimationFrame(() => createAsciiInstance(width, height));
 
     const ro = new ResizeObserver(entries => {
-      if (!entries[0] || !asciiRef.current) return;
+      if (!entries[0]) return;
       const { width: w, height: h } = entries[0].contentRect;
       if (w > 0 && h > 0) {
-        asciiRef.current.setSize(w, h);
+        if (!asciiRef.current) {
+          createAsciiInstance(w, h);
+        } else {
+          asciiRef.current.setSize(w, h);
+        }
       }
     });
     ro.observe(containerRef.current);
 
     return () => {
       ro.disconnect();
+      if (creationFrame !== null) {
+        cancelAnimationFrame(creationFrame);
+      }
       if (asciiRef.current) {
         asciiRef.current.dispose();
       }
