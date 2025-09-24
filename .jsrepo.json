@@ -1,0 +1,11 @@
+{
+  "$schema": "https://jsrepo.dev/schema.json",
+  "paths": {
+    "*": "./src/components",
+    "styles": "./src/styles"
+  },
+  "configFiles": {},
+  "includeTests": false,
+  "includeDocs": false,
+  "watermark": true
+}

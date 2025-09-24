@@ -1,2 +1,2 @@
-# AlphaReg
+# Model-A
 Data Analytics

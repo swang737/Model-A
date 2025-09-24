@@ -20,12 +20,22 @@ export default function SplitText({
   useEffect(() => {
     const el = ref.current
     if(!el) return
-    const chars = Array.from(text)
+
+    const segments =
+      splitType === 'words'
+        ? (text.match(/\S+|\s+/g) ?? [])
+        : Array.from(text)
+
     el.innerHTML = ''
-    chars.forEach((c) => {
+    segments.forEach(segment => {
+      if (splitType === 'words' && /^\s+$/.test(segment)) {
+        el.appendChild(document.createTextNode(segment))
+        return
+      }
       const span = document.createElement('span')
-      span.textContent = c
+      span.textContent = segment
       span.style.display = 'inline-block'
+      span.style.whiteSpace = 'pre'
       el.appendChild(span)
     })
 
@@ -49,7 +59,7 @@ export default function SplitText({
 
     observer.observe(el)
     return () => observer.disconnect()
-  }, [text, delay, duration, ease, from, to, threshold, rootMargin, onLetterAnimationComplete])
+  }, [text, splitType, delay, duration, ease, from, to, threshold, rootMargin, onLetterAnimationComplete])
 
   return <div ref={ref} className={className} style={{ textAlign }} aria-label={text}></div>
 }
