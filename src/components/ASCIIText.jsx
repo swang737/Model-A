@@ -301,8 +301,10 @@ class CanvAscii {
     this.container.appendChild(this.filter.domElement);
     this.setSize(this.width, this.height);
 
-    this.container.addEventListener('mousemove', this.onMouseMove);
-    this.container.addEventListener('touchmove', this.onMouseMove);
+    if (typeof window !== 'undefined') {
+      window.addEventListener('mousemove', this.onMouseMove);
+      window.addEventListener('touchmove', this.onTouchMove, { passive: true });
+    }
   }
 
   setSize(w, h) {
@@ -322,10 +324,26 @@ class CanvAscii {
   }
 
   onMouseMove(evt) {
-    const e = evt.touches ? evt.touches[0] : evt;
+    const viewportWidth = typeof window !== 'undefined' ? window.innerWidth : this.width;
+    const viewportHeight = typeof window !== 'undefined' ? window.innerHeight : this.height;
+    const normalizedX = viewportWidth ? evt.clientX / viewportWidth : 0.5;
+    const normalizedY = viewportHeight ? evt.clientY / viewportHeight : 0.5;
     const bounds = this.container.getBoundingClientRect();
-    const x = e.clientX - bounds.left;
-    const y = e.clientY - bounds.top;
+    const x = normalizedX * bounds.width;
+    const y = normalizedY * bounds.height;
+    this.mouse = { x, y };
+  }
+
+  onTouchMove(evt) {
+    if (!evt.touches || !evt.touches.length) return;
+    const touch = evt.touches[0];
+    const viewportWidth = typeof window !== 'undefined' ? window.innerWidth : this.width;
+    const viewportHeight = typeof window !== 'undefined' ? window.innerHeight : this.height;
+    const normalizedX = viewportWidth ? touch.clientX / viewportWidth : 0.5;
+    const normalizedY = viewportHeight ? touch.clientY / viewportHeight : 0.5;
+    const bounds = this.container.getBoundingClientRect();
+    const x = normalizedX * bounds.width;
+    const y = normalizedY * bounds.height;
     this.mouse = { x, y };
   }
 
@@ -377,8 +395,10 @@ class CanvAscii {
     cancelAnimationFrame(this.animationFrameId);
     this.filter.dispose();
     this.container.removeChild(this.filter.domElement);
-    this.container.removeEventListener('mousemove', this.onMouseMove);
-    this.container.removeEventListener('touchmove', this.onMouseMove);
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('mousemove', this.onMouseMove);
+      window.removeEventListener('touchmove', this.onTouchMove);
+    }
     this.clear();
     this.renderer.dispose();
   }
