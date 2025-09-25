@@ -31,13 +31,9 @@
 .nav-links{ display:flex; gap:16px; color: var(--muted); }
 .nav-links a:hover{ color: var(--fg); }
 .brand{ display:flex; align-items:center; gap:10px; font-weight:600; }
-.logo{ width:28px; height:28px; }
 .grid{ display:grid; gap:16px; }
 .grid.cols-3{ grid-template-columns: repeat(3, minmax(0,1fr)); }
 @media (max-width: 900px){ .grid.cols-3{ grid-template-columns: 1fr; } }
-.hero{
-  display:grid; place-items:center; padding: 80px 0;
-}
 .inp{
   background: rgba(255,255,255,0.06);
   border: 1px solid var(--glass-brd);

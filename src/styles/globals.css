@@ -93,11 +93,6 @@ a{ color: inherit; text-decoration: none; }
   }
 }
 
-.hero__ascii-wrapper[class] {
-  width: clamp(420px, 92vw, 1080px);
-  height: clamp(220px, 52vw, 560px);
-}
-
 @media (max-width: 640px) {
   .hero[class] {
     min-height: 75vh;
@@ -106,9 +101,9 @@ a{ color: inherit; text-decoration: none; }
   }
 
   .hero__scroll-hint[class] {
-    right: 50%;
-    transform: translateX(-50%);
     bottom: clamp(-56px, -12vh, -24px);
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   .hero__ascii-wrapper[class] {
